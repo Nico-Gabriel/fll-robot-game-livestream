@@ -1,0 +1,18 @@
+@font-face {
+	font-family: "CARDOT Regular";
+	src: url(./assets/fonts/CARDOT/CARDOT_Regular.ttf);
+}
+
+@font-face {
+	font-family: "CARDOT Semibold";
+	src: url(./assets/fonts/CARDOT/CARDOT_Semibold.ttf);
+}
+
+body {
+	margin: 0;
+	font-family: "CARDOT Regular";
+}
+
+.bold {
+	font-family: "CARDOT Semibold";
+}

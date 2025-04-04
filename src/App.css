@@ -1,0 +1,143 @@
+:root {
+	--red-color: red;
+	--blue-color: blue;
+	--orange-color: orange;
+	--white-color: white;
+	--border-width: 10px;
+	--team-name-padding: 20px;
+	--team-name-background-cutout-width: 0; /* dynamically set by App.js */
+}
+
+.app-container {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	grid-template-columns: 1fr 1fr;
+	width: 100dvw;
+	height: 100dvh;
+}
+
+.topbar {
+	display: grid;
+	grid-column-end: span 2;
+	grid-template-columns: 1fr auto 1fr;
+	background-color: var(--orange-color);
+	border-top: var(--border-width) solid var(--orange-color);
+	border-bottom: var(--border-width) solid var(--orange-color);
+	color: var(--white-color);
+	font-size: clamp(12px, 2vw, 32px);
+}
+
+.red-team-name-wrapper {
+	background-color: var(--red-color);
+	clip-path: polygon(0 0, 100% 0, calc(100% - var(--team-name-background-cutout-width)) 100%, 0 100%);
+	padding-top: var(--team-name-padding);
+	padding-bottom: var(--team-name-padding);
+	padding-left: var(--team-name-padding);
+	padding-right: calc(var(--team-name-padding) + var(--team-name-background-cutout-width));
+	overflow: hidden;
+	animation: slide-in-from-left 1s;
+}
+
+.blue-team-name-wrapper {
+	background-color: var(--blue-color);
+	clip-path: polygon(var(--team-name-background-cutout-width) 0, 100% 0, 100% 100%, 0 100%);
+	padding-top: var(--team-name-padding);
+	padding-bottom: var(--team-name-padding);
+	padding-left: calc(var(--team-name-padding) + var(--team-name-background-cutout-width));
+	padding-right: var(--team-name-padding);
+	overflow: hidden;
+	animation: slide-in-from-right 1s;
+}
+
+.countdown-timer-wrapper {
+	font-size: clamp(16px, 3vw, 42px);
+	padding: 0 20px;
+}
+
+.red-team-name,
+.blue-team-name,
+.countdown-timer {
+	padding-top: 0.15em;
+}
+
+.red-team-name,
+.blue-team-name {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.red-team-video-wrapper {
+	border: var(--border-width) solid var(--red-color);
+}
+
+.blue-team-video-wrapper {
+	border: var(--border-width) solid var(--blue-color);
+}
+
+.children-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+@keyframes slide-in-from-left {
+	from {
+		transform: translateX(-100%);
+	}
+
+	to {
+		transform: translateX(0);
+	}
+}
+
+@keyframes slide-in-from-right {
+	from {
+		transform: translateX(100%);
+	}
+
+	to {
+		transform: translateX(0);
+	}
+}
+
+@media only screen and (orientation: portrait) {
+	.app-container {
+		grid-template-rows: 1fr auto 1fr;
+		grid-template-columns: 1fr;
+	}
+
+	.topbar {
+		grid-row-start: 2;
+	}
+
+	.red-team-video-wrapper {
+		grid-row-start: 1;
+	}
+
+	.blue-team-video-wrapper {
+		grid-row-start: 3;
+	}
+}
+
+@media only screen and (max-width: 800px) {
+	:root {
+		--border-width: 9px;
+		--team-name-padding: 18px;
+	}
+
+	.countdown-timer-wrapper {
+		padding: 0 10px;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	:root {
+		--border-width: 8px;
+		--team-name-padding: 16px;
+	}
+
+	.countdown-timer-wrapper {
+		padding: 0;
+	}
+}
