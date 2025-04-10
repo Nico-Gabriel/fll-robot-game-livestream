@@ -31,8 +31,12 @@ const App = () => {
 					<div className="blue-team-name bold">Blue Team</div>
 				</div>
 			</div>
-			<div className="red-team-video-wrapper"></div>
-			<div className="blue-team-video-wrapper"></div>
+			<div className="red-team-video-wrapper">
+				<img src="http://localhost:8080/red-team-video" alt="Red Team Video" className="video" />
+			</div>
+			<div className="blue-team-video-wrapper">
+				<img src="http://localhost:8080/blue-team-video" alt="Blue Team Video" className="video" />
+			</div>
 		</div>
 	);
 };
