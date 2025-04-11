@@ -89,6 +89,10 @@
 	align-items: center;
 }
 
+.hidden {
+	display: none;
+}
+
 @keyframes slide-in-from-left {
 	from {
 		transform: translateX(-100%);

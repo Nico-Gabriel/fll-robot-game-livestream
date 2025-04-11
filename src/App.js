@@ -1,5 +1,6 @@
 import useResizeObserver from "@react-hook/resize-observer";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import { BounceLoader } from "react-spinners";
 import "./App.css";
 
 const App = () => {
@@ -18,6 +19,13 @@ const App = () => {
 
 	useResizeObserver(topbarRef, updateTeamNameBackgroundCutoutWidth);
 
+	const [isRedTeamVideoLoaded, setIsRedTeamVideoLoaded] = useState(false);
+	const [isBlueTeamVideoLoaded, setIsBlueTeamVideoLoaded] = useState(false);
+
+	const videoServerUrl = "http://localhost:8080";
+	const redTeamVideoSrc = `${videoServerUrl}/red-team-video`;
+	const blueTeamVideoSrc = `${videoServerUrl}/blue-team-video`;
+
 	return (
 		<div className="app-container">
 			<div ref={topbarRef} className="topbar">
@@ -31,11 +39,25 @@ const App = () => {
 					<div className="blue-team-name bold">Blue Team</div>
 				</div>
 			</div>
-			<div className="red-team-video-wrapper">
-				<img src="http://localhost:8080/red-team-video" alt="Red Team Video" className="video" />
+			<div className="red-team-video-wrapper children-center">
+				<img
+					src={redTeamVideoSrc}
+					alt="Red Team Video"
+					className={`video ${isRedTeamVideoLoaded ? "" : "hidden"}`}
+					onLoad={() => setIsRedTeamVideoLoaded(true)}
+					onError={() => setIsRedTeamVideoLoaded(false)}
+				/>
+				{!isRedTeamVideoLoaded && <BounceLoader size={100} color="red" />}
 			</div>
-			<div className="blue-team-video-wrapper">
-				<img src="http://localhost:8080/blue-team-video" alt="Blue Team Video" className="video" />
+			<div className="blue-team-video-wrapper children-center">
+				<img
+					src={blueTeamVideoSrc}
+					alt="Blue Team Video"
+					className={`video ${isBlueTeamVideoLoaded ? "" : "hidden"}`}
+					onLoad={() => setIsBlueTeamVideoLoaded(true)}
+					onError={() => setIsBlueTeamVideoLoaded(false)}
+				/>
+				{!isBlueTeamVideoLoaded && <BounceLoader size={100} color="blue" />}
 			</div>
 		</div>
 	);
