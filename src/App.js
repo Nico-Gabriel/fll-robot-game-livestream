@@ -1,5 +1,5 @@
 import useResizeObserver from "@react-hook/resize-observer";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { BounceLoader } from "react-spinners";
 import "./App.css";
 
