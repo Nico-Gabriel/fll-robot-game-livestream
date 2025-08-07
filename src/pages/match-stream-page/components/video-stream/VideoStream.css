@@ -1,0 +1,15 @@
+.red-team-video-stream-wrapper {
+	border: var(--border-width) solid var(--red-color);
+	overflow: hidden;
+}
+
+.blue-team-video-stream-wrapper {
+	border: var(--border-width) solid var(--blue-color);
+	overflow: hidden;
+}
+
+.video-stream {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}

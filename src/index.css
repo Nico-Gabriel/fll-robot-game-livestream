@@ -8,11 +8,28 @@
 	src: url(./assets/fonts/CARDOT/CARDOT_Semibold.ttf);
 }
 
+:root {
+	--red-color: red;
+	--blue-color: blue;
+	--orange-color: orange;
+	--white-color: white;
+}
+
 body {
-	margin: 0;
 	font-family: "CARDOT Regular";
+	margin: 0;
 }
 
 .bold {
 	font-family: "CARDOT Semibold";
+}
+
+.children-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.hidden {
+	display: none;
 }
