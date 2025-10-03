@@ -19,7 +19,7 @@
 }
 
 :root {
-	--team-name-padding: 20px;
+	--team-name-padding: calc(var(--border-width) * 1.5);
 	--team-name-background-cutout-width: 0; /* dynamically set by App.js */
 }
 
@@ -31,7 +31,7 @@
 	border-top: var(--border-width) solid var(--orange-color);
 	border-bottom: var(--border-width) solid var(--orange-color);
 	color: var(--white-color);
-	font-size: clamp(12px, 2vw, 32px);
+	font-size: clamp(14px, 2vw, 42px);
 }
 
 .red-team-name-wrapper {
@@ -57,7 +57,7 @@
 }
 
 .countdown-timer-wrapper {
-	font-size: clamp(16px, 3vw, 42px);
+	font-size: clamp(18px, 2.5vw, 54px);
 	padding: 0 20px;
 }
 
@@ -75,20 +75,12 @@
 }
 
 @media only screen and (max-width: 800px) {
-	:root {
-		--team-name-padding: 18px;
-	}
-
 	.countdown-timer-wrapper {
 		padding: 0 10px;
 	}
 }
 
 @media only screen and (max-width: 600px) {
-	:root {
-		--team-name-padding: 16px;
-	}
-
 	.countdown-timer-wrapper {
 		padding: 0;
 	}

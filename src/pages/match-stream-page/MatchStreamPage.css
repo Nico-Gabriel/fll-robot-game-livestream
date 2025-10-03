@@ -1,5 +1,5 @@
 :root {
-	--border-width: 10px;
+	--border-width: clamp(10px, 0.75vw, 0.75vw);
 }
 
 .match-stream-page-container {
@@ -31,12 +31,12 @@
 
 @media only screen and (max-width: 800px) {
 	:root {
-		--border-width: 9px;
+		--border-width: clamp(9px, 0.75vw, 0.75vw);
 	}
 }
 
 @media only screen and (max-width: 600px) {
 	:root {
-		--border-width: 8px;
+		--border-width: clamp(8px, 0.75vw, 0.75vw);
 	}
 }
