@@ -14,6 +14,16 @@ const Topbar = () => {
 			"--team-name-background-cutout-width",
 			`${topbarRef.current.clientHeight}px`
 		);
+
+		document.documentElement.style.setProperty(
+			"--team-name-width",
+			`${document.querySelector(".blue-team-name").clientWidth}px`
+		);
+
+		document.documentElement.style.setProperty(
+			"--team-name-background-width",
+			`${document.querySelector(".blue-team-name-wrapper").clientWidth}px`
+		);
 	};
 
 	useResizeObserver(topbarRef, updateTeamNameBackgroundCutoutWidth);
@@ -27,7 +37,7 @@ const Topbar = () => {
 				<div className="countdown-timer">2:30</div>
 			</div>
 			<div className="blue-team-name-wrapper children-center">
-				<div className="blue-team-name bold">Blue Team</div>
+				<div className="blue-team-name bold marquee">Blue Team</div>
 			</div>
 		</div>
 	);

@@ -20,7 +20,11 @@
 
 :root {
 	--team-name-padding: calc(var(--border-width) * 1.5);
-	--team-name-background-cutout-width: 0; /* dynamically set by App.js */
+
+	/* dynamically set by Topbar.jsx */
+	--team-name-width: 0px;
+	--team-name-background-width: 0px;
+	--team-name-background-cutout-width: 0px;
 }
 
 .topbar {
@@ -85,3 +89,51 @@
 		padding: 0;
 	}
 }
+
+/* MARQUEE TEXT EFFECT */
+
+.marquee {
+	overflow: visible;
+	text-overflow: clip;
+	animation: marquee 10s linear infinite;
+}
+
+.marquee:hover {
+	animation-play-state: paused;
+}
+
+@keyframes marquee {
+	from {
+		transform: translateX(
+			calc(
+				0.5 *
+					(
+						var(--team-name-width) + var(--team-name-background-width) -
+							var(--team-name-background-cutout-width)
+					)
+			)
+		);
+	}
+
+	to {
+		transform: translateX(
+			calc(
+				-0.5 * (
+						var(--team-name-width) + var(--team-name-background-width) +
+							var(--team-name-background-cutout-width)
+					) + var(--team-name-padding)
+			)
+		);
+	}
+}
+
+/* 
+	TODOS:
+	- modify marquee text effect for left side (red team)
+	- apply marquee only if text is too long
+	- refactor CSS:
+		- rename classes to BEM convention
+	-refactor JSX:
+		- use ref instead of document.querySelector
+		- refactor updateTeamNameBackgroundCutoutWidth function
+ */
