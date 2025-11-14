@@ -22,7 +22,8 @@
 	--team-name-padding: calc(var(--border-width) * 1.5);
 
 	/* dynamically set by Topbar.jsx */
-	--team-name-width: 0px;
+	--red-team-name-width: 0px;
+	--blue-team-name-width: 0px;
 	--team-name-background-width: 0px;
 	--team-name-background-cutout-width: 0px;
 }
@@ -92,23 +93,50 @@
 
 /* MARQUEE TEXT EFFECT */
 
-.marquee {
+.marquee-left,
+.marquee-right {
 	overflow: visible;
 	text-overflow: clip;
-	animation: marquee 10s linear infinite;
 }
 
-.marquee:hover {
-	animation-play-state: paused;
+.marquee-left {
+	animation: marquee-left 10s linear infinite;
 }
 
-@keyframes marquee {
+.marquee-right {
+	animation: marquee-right 10s linear infinite;
+}
+
+@keyframes marquee-left {
 	from {
 		transform: translateX(
 			calc(
 				0.5 *
 					(
-						var(--team-name-width) + var(--team-name-background-width) -
+						var(--red-team-name-width) + var(--team-name-background-width) +
+							var(--team-name-background-cutout-width)
+					) - var(--team-name-padding)
+			)
+		);
+	}
+
+	to {
+		transform: translateX(
+			calc(
+				-0.5 * (var(--red-team-name-width) + var(--team-name-background-width) -
+							var(--team-name-background-cutout-width))
+			)
+		);
+	}
+}
+
+@keyframes marquee-right {
+	from {
+		transform: translateX(
+			calc(
+				0.5 *
+					(
+						var(--blue-team-name-width) + var(--team-name-background-width) -
 							var(--team-name-background-cutout-width)
 					)
 			)
@@ -119,7 +147,7 @@
 		transform: translateX(
 			calc(
 				-0.5 * (
-						var(--team-name-width) + var(--team-name-background-width) +
+						var(--blue-team-name-width) + var(--team-name-background-width) +
 							var(--team-name-background-cutout-width)
 					) + var(--team-name-padding)
 			)
