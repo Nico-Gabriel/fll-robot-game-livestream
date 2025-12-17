@@ -112,11 +112,3 @@
 		padding: 0;
 	}
 }
-
-/* 
-	TODOS:
-	- refactor CSS:
-		- rename classes to BEM convention
-	-refactor JSX:
-		- refactor updateTeamNameBackgroundCutoutWidth function
- */
