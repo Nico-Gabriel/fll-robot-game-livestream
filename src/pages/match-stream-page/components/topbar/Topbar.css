@@ -1,20 +1,10 @@
-@keyframes slide-in-from-left {
+@keyframes slide {
 	from {
-		transform: translateX(-100%);
+		transform: translateX(var(--offset-start));
 	}
 
 	to {
-		transform: translateX(0);
-	}
-}
-
-@keyframes slide-in-from-right {
-	from {
-		transform: translateX(100%);
-	}
-
-	to {
-		transform: translateX(0);
+		transform: translateX(var(--offset-end));
 	}
 }
 
@@ -39,26 +29,27 @@
 	font-size: clamp(14px, 2vw, 42px);
 }
 
+.red-team-name-wrapper,
+.blue-team-name-wrapper {
+	padding: var(--team-name-padding);
+	overflow: hidden;
+	animation: slide 1s;
+}
+
 .red-team-name-wrapper {
 	background-color: var(--red-color);
 	clip-path: polygon(0 0, 100% 0, calc(100% - var(--team-name-background-cutout-width)) 100%, 0 100%);
-	padding-top: var(--team-name-padding);
-	padding-bottom: var(--team-name-padding);
-	padding-left: var(--team-name-padding);
 	padding-right: calc(var(--team-name-padding) + var(--team-name-background-cutout-width));
-	overflow: hidden;
-	animation: slide-in-from-left 1s;
+	--offset-start: -100%;
+	--offset-end: 0;
 }
 
 .blue-team-name-wrapper {
 	background-color: var(--blue-color);
 	clip-path: polygon(var(--team-name-background-cutout-width) 0, 100% 0, 100% 100%, 0 100%);
-	padding-top: var(--team-name-padding);
-	padding-bottom: var(--team-name-padding);
 	padding-left: calc(var(--team-name-padding) + var(--team-name-background-cutout-width));
-	padding-right: var(--team-name-padding);
-	overflow: hidden;
-	animation: slide-in-from-right 1s;
+	--offset-start: 100%;
+	--offset-end: 0;
 }
 
 .countdown-timer-wrapper {
@@ -79,6 +70,37 @@
 	text-overflow: ellipsis;
 }
 
+.marquee {
+	overflow: visible;
+	text-overflow: clip;
+	animation: slide 10s linear infinite;
+}
+
+.marquee.red-team-name {
+	--offset-start: calc(
+		0.5 *
+			(var(--red-team-name-width) + var(--team-name-background-width) + var(--team-name-background-cutout-width)) -
+			var(--team-name-padding)
+	);
+	--offset-end: calc(
+		-0.5 * (var(--red-team-name-width) + var(--team-name-background-width) -
+					var(--team-name-background-cutout-width))
+	);
+}
+
+.marquee.blue-team-name {
+	--offset-start: calc(
+		0.5 *
+			(var(--blue-team-name-width) + var(--team-name-background-width) - var(--team-name-background-cutout-width))
+	);
+	--offset-end: calc(
+		-0.5 * (
+				var(--blue-team-name-width) + var(--team-name-background-width) +
+					var(--team-name-background-cutout-width)
+			) + var(--team-name-padding)
+	);
+}
+
 @media only screen and (max-width: 800px) {
 	.countdown-timer-wrapper {
 		padding: 0 10px;
@@ -91,77 +113,10 @@
 	}
 }
 
-/* MARQUEE TEXT EFFECT */
-
-.marquee-left,
-.marquee-right {
-	overflow: visible;
-	text-overflow: clip;
-}
-
-.marquee-left {
-	animation: marquee-left 10s linear infinite;
-}
-
-.marquee-right {
-	animation: marquee-right 10s linear infinite;
-}
-
-@keyframes marquee-left {
-	from {
-		transform: translateX(
-			calc(
-				0.5 *
-					(
-						var(--red-team-name-width) + var(--team-name-background-width) +
-							var(--team-name-background-cutout-width)
-					) - var(--team-name-padding)
-			)
-		);
-	}
-
-	to {
-		transform: translateX(
-			calc(
-				-0.5 * (var(--red-team-name-width) + var(--team-name-background-width) -
-							var(--team-name-background-cutout-width))
-			)
-		);
-	}
-}
-
-@keyframes marquee-right {
-	from {
-		transform: translateX(
-			calc(
-				0.5 *
-					(
-						var(--blue-team-name-width) + var(--team-name-background-width) -
-							var(--team-name-background-cutout-width)
-					)
-			)
-		);
-	}
-
-	to {
-		transform: translateX(
-			calc(
-				-0.5 * (
-						var(--blue-team-name-width) + var(--team-name-background-width) +
-							var(--team-name-background-cutout-width)
-					) + var(--team-name-padding)
-			)
-		);
-	}
-}
-
 /* 
 	TODOS:
-	- modify marquee text effect for left side (red team)
-	- apply marquee only if text is too long
 	- refactor CSS:
 		- rename classes to BEM convention
 	-refactor JSX:
-		- use ref instead of document.querySelector
 		- refactor updateTeamNameBackgroundCutoutWidth function
  */
