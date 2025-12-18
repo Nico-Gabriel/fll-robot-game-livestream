@@ -1,5 +1,6 @@
 import useResizeObserver from "@react-hook/resize-observer";
-import { useEffect, useRef } from "react";
+import { TeamColor } from "constants";
+import { useRef } from "react";
 import "./Topbar.css";
 
 const Topbar = () => {
@@ -7,58 +8,44 @@ const Topbar = () => {
 	const redTeamNameRef = useRef(null);
 	const blueTeamNameRef = useRef(null);
 
-	const updateTeamNameBackgroundCutoutWidth = () => {
-		if (!topbarRef.current) {
+	const setCSSVariable = (name, value) => document.documentElement.style.setProperty(name, value);
+
+	const updateTopbarHeight = () => {
+		const topbar = topbarRef.current;
+
+		if (!topbar) {
 			return;
 		}
 
-		document.documentElement.style.setProperty(
-			"--team-name-background-cutout-width",
-			`${topbarRef.current.clientHeight}px`
-		);
+		setCSSVariable("--team-name-background-cutout-width", `${topbar.clientHeight}px`);
+	};
 
-		document.documentElement.style.setProperty("--red-team-name-width", `${redTeamNameRef.current.clientWidth}px`);
+	const updateTeamNameWidth = (teamNameRef, teamColor) => {
+		const teamName = teamNameRef.current;
 
-		document.documentElement.style.setProperty(
-			"--blue-team-name-width",
-			`${blueTeamNameRef.current.clientWidth}px`
-		);
-
-		document.documentElement.style.setProperty(
-			"--team-name-background-width",
-			`${redTeamNameRef.current.parentElement.clientWidth}px`
-		);
-
-		const redTeamName = redTeamNameRef.current;
-		const blueTeamName = blueTeamNameRef.current;
-
-		redTeamName.classList.remove("marquee-left");
-		blueTeamName.classList.remove("marquee-right");
-
-		if (redTeamName.scrollWidth > redTeamName.clientWidth) {
-			redTeamName.classList.add("marquee-left");
+		if (!teamName) {
+			return;
 		}
 
-		if (blueTeamName.scrollWidth > blueTeamName.clientWidth) {
-			blueTeamName.classList.add("marquee-right");
+		setCSSVariable(`--${teamColor}-team-name-width`, `${teamName.clientWidth}px`);
+		setCSSVariable("--team-name-background-width", `${teamName.parentElement.clientWidth}px`);
+
+		teamName.classList.remove("marquee");
+
+		if (teamName.scrollWidth > teamName.clientWidth) {
+			teamName.classList.add("marquee");
 		}
 	};
 
-	useResizeObserver(topbarRef, updateTeamNameBackgroundCutoutWidth);
-	// own resize observer for red and blue team names, with extra functions
-	useResizeObserver(redTeamNameRef, () => {
-		console.log("red team name resized");
-	});
-
-	useEffect(() => {
-		updateTeamNameBackgroundCutoutWidth();
-	}, [redTeamNameRef.current?.clientWidth, blueTeamNameRef.current?.clientWidth]);
+	useResizeObserver(topbarRef, updateTopbarHeight);
+	useResizeObserver(redTeamNameRef, () => updateTeamNameWidth(redTeamNameRef, TeamColor.RED));
+	useResizeObserver(blueTeamNameRef, () => updateTeamNameWidth(blueTeamNameRef, TeamColor.BLUE));
 
 	return (
 		<div ref={topbarRef} className="topbar">
 			<div className="red-team-name-wrapper children-center">
 				<div ref={redTeamNameRef} className="red-team-name bold">
-					Brick4Future ABCDEFGHIJKLMNOPwjfwjfh
+					Red Team
 				</div>
 			</div>
 			<div className="countdown-timer-wrapper children-center">
@@ -66,7 +53,7 @@ const Topbar = () => {
 			</div>
 			<div className="blue-team-name-wrapper children-center">
 				<div ref={blueTeamNameRef} className="blue-team-name bold">
-					Mechatronics Hollabrunn
+					Blue Team
 				</div>
 			</div>
 		</div>
