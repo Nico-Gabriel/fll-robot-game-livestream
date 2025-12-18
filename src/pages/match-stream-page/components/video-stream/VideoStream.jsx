@@ -8,7 +8,7 @@ const VideoStream = ({ teamColor }) => {
 	const [isVideoStreamLoaded, setIsVideoStreamLoaded] = useState(false);
 
 	return (
-		<div className={`${teamColor}-team-video-stream-wrapper children-center`}>
+		<div className={`video-stream__wrapper video-stream__wrapper--${teamColor} children-center`}>
 			<img
 				src={VIDEO_STREAM_SOURCES[teamColor]}
 				alt={`${capitalizeFirstLetter(teamColor)} Team Video`}

@@ -9,10 +9,10 @@
 }
 
 :root {
-	--red-color: red;
-	--blue-color: blue;
-	--orange-color: orange;
-	--white-color: white;
+	--color-red: red;
+	--color-blue: blue;
+	--color-orange: orange;
+	--color-white: white;
 }
 
 body {

@@ -5,7 +5,7 @@ import "./MatchStreamPage.css";
 
 const MatchStreamPage = () => {
 	return (
-		<div className="match-stream-page-container">
+		<div className="match-stream-page__container">
 			<Topbar />
 			<VideoStream teamColor={TeamColor.RED} />
 			<VideoStream teamColor={TeamColor.BLUE} />

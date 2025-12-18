@@ -43,16 +43,16 @@ const Topbar = () => {
 
 	return (
 		<div ref={topbarRef} className="topbar">
-			<div className="red-team-name-wrapper children-center">
-				<div ref={redTeamNameRef} className="red-team-name bold">
+			<div className="team-name__wrapper team-name__wrapper--red children-center">
+				<div ref={redTeamNameRef} className="team-name team-name--red bold">
 					Red Team
 				</div>
 			</div>
-			<div className="countdown-timer-wrapper children-center">
+			<div className="countdown-timer__wrapper children-center">
 				<div className="countdown-timer">2:30</div>
 			</div>
-			<div className="blue-team-name-wrapper children-center">
-				<div ref={blueTeamNameRef} className="blue-team-name bold">
+			<div className="team-name__wrapper team-name__wrapper--blue children-center">
+				<div ref={blueTeamNameRef} className="team-name team-name--blue bold">
 					Blue Team
 				</div>
 			</div>

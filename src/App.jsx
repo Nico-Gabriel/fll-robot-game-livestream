@@ -3,7 +3,7 @@ import MatchStreamPage from "./pages/match-stream-page";
 
 const App = () => {
 	return (
-		<div className="app-container">
+		<div className="app__container">
 			<MatchStreamPage />
 		</div>
 	);

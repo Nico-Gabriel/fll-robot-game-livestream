@@ -1,11 +1,13 @@
-.red-team-video-stream-wrapper {
-	border: var(--border-width) solid var(--red-color);
+.video-stream__wrapper {
 	overflow: hidden;
 }
 
-.blue-team-video-stream-wrapper {
-	border: var(--border-width) solid var(--blue-color);
-	overflow: hidden;
+.video-stream__wrapper--red {
+	border: var(--border-width) solid var(--color-red);
+}
+
+.video-stream__wrapper--blue {
+	border: var(--border-width) solid var(--color-blue);
 }
 
 .video-stream {

@@ -22,49 +22,46 @@
 	display: grid;
 	grid-column-end: span 2;
 	grid-template-columns: 1fr auto 1fr;
-	background-color: var(--orange-color);
-	border-top: var(--border-width) solid var(--orange-color);
-	border-bottom: var(--border-width) solid var(--orange-color);
-	color: var(--white-color);
+	background-color: var(--color-orange);
+	border-top: var(--border-width) solid var(--color-orange);
+	border-bottom: var(--border-width) solid var(--color-orange);
+	color: var(--color-white);
 	font-size: clamp(14px, 2vw, 42px);
 }
 
-.red-team-name-wrapper,
-.blue-team-name-wrapper {
+.team-name__wrapper {
 	padding: var(--team-name-padding);
 	overflow: hidden;
 	animation: slide 1s;
 }
 
-.red-team-name-wrapper {
-	background-color: var(--red-color);
+.team-name__wrapper--red {
+	background-color: var(--color-red);
 	clip-path: polygon(0 0, 100% 0, calc(100% - var(--team-name-background-cutout-width)) 100%, 0 100%);
 	padding-right: calc(var(--team-name-padding) + var(--team-name-background-cutout-width));
 	--offset-start: -100%;
 	--offset-end: 0;
 }
 
-.blue-team-name-wrapper {
-	background-color: var(--blue-color);
+.team-name__wrapper--blue {
+	background-color: var(--color-blue);
 	clip-path: polygon(var(--team-name-background-cutout-width) 0, 100% 0, 100% 100%, 0 100%);
 	padding-left: calc(var(--team-name-padding) + var(--team-name-background-cutout-width));
 	--offset-start: 100%;
 	--offset-end: 0;
 }
 
-.countdown-timer-wrapper {
+.countdown-timer__wrapper {
 	font-size: clamp(18px, 2.5vw, 54px);
 	padding: 0 20px;
 }
 
-.red-team-name,
-.blue-team-name,
+.team-name,
 .countdown-timer {
 	padding-top: 0.15em;
 }
 
-.red-team-name,
-.blue-team-name {
+.team-name {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -76,7 +73,7 @@
 	animation: slide 10s linear infinite;
 }
 
-.marquee.red-team-name {
+.marquee.team-name--red {
 	--offset-start: calc(
 		0.5 *
 			(var(--red-team-name-width) + var(--team-name-background-width) + var(--team-name-background-cutout-width)) -
@@ -88,7 +85,7 @@
 	);
 }
 
-.marquee.blue-team-name {
+.marquee.team-name--blue {
 	--offset-start: calc(
 		0.5 *
 			(var(--blue-team-name-width) + var(--team-name-background-width) - var(--team-name-background-cutout-width))
@@ -102,13 +99,13 @@
 }
 
 @media only screen and (max-width: 800px) {
-	.countdown-timer-wrapper {
+	.countdown-timer__wrapper {
 		padding: 0 10px;
 	}
 }
 
 @media only screen and (max-width: 600px) {
-	.countdown-timer-wrapper {
+	.countdown-timer__wrapper {
 		padding: 0;
 	}
 }
