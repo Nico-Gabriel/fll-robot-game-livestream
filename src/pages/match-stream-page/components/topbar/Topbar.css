@@ -52,19 +52,19 @@
 }
 
 .countdown-timer__wrapper {
-	font-size: clamp(18px, 2.5vw, 54px);
 	padding: 0 20px;
 }
 
-.team-name,
-.countdown-timer {
-	padding-top: 0.15em;
-}
-
 .team-name {
+	padding-top: 0.15em;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.countdown-timer {
+	font-size: clamp(24px, 4vw, 72px);
+	padding-top: 0.06em;
 }
 
 .marquee {
@@ -98,13 +98,13 @@
 	);
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
 	.countdown-timer__wrapper {
 		padding: 0 10px;
 	}
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 500px) {
 	.countdown-timer__wrapper {
 		padding: 0;
 	}
