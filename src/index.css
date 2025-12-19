@@ -8,6 +8,11 @@
 	src: url(./assets/fonts/CARDOT/CARDOT_Semibold.ttf);
 }
 
+@font-face {
+	font-family: "Digital Dismay";
+	src: url(./assets/fonts/Digital_Dismay/Digital_Dismay.otf);
+}
+
 :root {
 	--color-red: red;
 	--color-blue: blue;
@@ -22,6 +27,10 @@ body {
 
 .bold {
 	font-family: "CARDOT Semibold";
+}
+
+.seven-segment-display {
+	font-family: "Digital Dismay";
 }
 
 .children-center {
