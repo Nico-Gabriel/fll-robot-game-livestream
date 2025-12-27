@@ -1,6 +1,7 @@
 import useResizeObserver from "@react-hook/resize-observer";
 import { TeamColor } from "constants";
 import { useRef } from "react";
+import Timer from "../timer";
 import "./Topbar.css";
 
 const Topbar = () => {
@@ -49,7 +50,9 @@ const Topbar = () => {
 				</div>
 			</div>
 			<div className="countdown-timer__wrapper children-center">
-				<div className="countdown-timer seven-segment-display">2:30</div>
+				<div className="countdown-timer seven-segment-display">
+					<Timer />
+				</div>
 			</div>
 			<div className="team-name__wrapper team-name__wrapper--blue children-center">
 				<div ref={blueTeamNameRef} className="team-name team-name--blue bold">
