@@ -50,8 +50,11 @@ const Topbar = () => {
 				</div>
 			</div>
 			<div className="countdown-timer__wrapper children-center">
-				<div className="countdown-timer seven-segment-display">
-					<Timer duration={MATCH_DURATION_SECONDS} />
+				<div className="countdown-timer__container seven-segment-display">
+					<div className="countdown-timer__background">8:88</div>
+					<div className="countdown-timer">
+						<Timer duration={MATCH_DURATION_SECONDS} />
+					</div>
 				</div>
 			</div>
 			<div className="team-name__wrapper team-name__wrapper--blue children-center">

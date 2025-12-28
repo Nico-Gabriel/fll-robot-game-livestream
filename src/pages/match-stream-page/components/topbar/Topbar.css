@@ -51,10 +51,6 @@
 	--offset-end: 0;
 }
 
-.countdown-timer__wrapper {
-	padding: 0 20px;
-}
-
 .team-name {
 	padding-top: 0.15em;
 	white-space: nowrap;
@@ -62,9 +58,22 @@
 	text-overflow: ellipsis;
 }
 
-.countdown-timer {
+.countdown-timer__wrapper {
+	padding: 0 20px;
+}
+
+.countdown-timer__container {
 	font-size: clamp(24px, 4vw, 72px);
 	padding-top: 0.06em;
+}
+
+.countdown-timer__background {
+	position: absolute;
+	opacity: 0.15;
+}
+
+.countdown-timer {
+	position: relative;
 }
 
 .marquee {
