@@ -14,10 +14,11 @@
 }
 
 :root {
-	--color-red: red;
-	--color-blue: blue;
-	--color-orange: orange;
 	--color-white: white;
+	--color-orange: #f39100;
+	--color-red: #ec1d24;
+	--color-blue: #0065b3;
+	--color-dark-red: #ad0100;
 }
 
 body {

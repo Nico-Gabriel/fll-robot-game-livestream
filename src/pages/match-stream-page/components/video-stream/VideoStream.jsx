@@ -16,7 +16,7 @@ const VideoStream = ({ teamColor }) => {
 				onLoad={() => setIsVideoStreamLoaded(true)}
 				onError={() => setIsVideoStreamLoaded(false)}
 			/>
-			{!isVideoStreamLoaded && <BounceLoader size={100} color={teamColor} />}
+			{!isVideoStreamLoaded && <BounceLoader size={100} color={`var(--color-${teamColor})`} />}
 		</div>
 	);
 };
