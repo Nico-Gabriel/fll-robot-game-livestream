@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 const useSounds = (soundMap) => {
 	const audios = useMemo(
@@ -6,27 +6,42 @@ const useSounds = (soundMap) => {
 		[soundMap]
 	);
 
-	const play = (key) => {
-		const audio = audios[key];
+	useEffect(
+		() => () =>
+			Object.values(audios).forEach((audio) => {
+				audio.pause();
+				audio.currentTime = 0;
+			}),
+		[audios]
+	);
 
-		if (!audio) {
-			return;
-		}
+	const play = useCallback(
+		(key) => {
+			const audio = audios[key];
 
-		audio.currentTime = 0;
-		audio.play();
-	};
+			if (!audio) {
+				return;
+			}
 
-	const stop = (key) => {
-		const audio = audios[key];
+			audio.currentTime = 0;
+			audio.play().catch((reason) => console.error("Failed to play audio:", reason));
+		},
+		[audios]
+	);
 
-		if (!audio) {
-			return;
-		}
+	const stop = useCallback(
+		(key) => {
+			const audio = audios[key];
 
-		audio.pause();
-		audio.currentTime = 0;
-	};
+			if (!audio) {
+				return;
+			}
+
+			audio.pause();
+			audio.currentTime = 0;
+		},
+		[audios]
+	);
 
 	return { play, stop };
 };

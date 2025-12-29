@@ -1,34 +1,49 @@
-import { TimerPhase } from "constants";
-import { useEffect, useState } from "react";
+import { SOUND_EFFECT_SOURCES, TIMER_SOUND_EFFECTS, TimerPhase } from "constants";
+import { useSounds } from "hooks";
+import { useCallback, useEffect, useState } from "react";
 import { useTimer } from "react-timer-hook";
 import "./Timer.css";
 
 const Timer = ({ duration, preCountEnabled = true, preCountDuration = 10 }) => {
 	const [timerPhase, setTimerPhase] = useState(preCountEnabled ? TimerPhase.PRE : TimerPhase.MAIN);
 
-	const calculateExpiryTimestamp = (seconds) => new Date(Date.now() + seconds * 1000);
+	const calculateExpiryTimestamp = useCallback((seconds) => new Date(Date.now() + seconds * 1000), []);
 
-	const onTimerExpire = () => {
+	const onTimerExpire = useCallback(() => {
 		if (timerPhase !== TimerPhase.PRE) {
 			return;
 		}
 
-		setTimerPhase(TimerPhase.MAIN);
-	};
+		setTimerPhase(TimerPhase.TRANSITION);
+	}, [timerPhase]);
 
-	const { seconds, minutes, restart } = useTimer({
+	const {
+		totalSeconds,
+		seconds,
+		minutes,
+		restart: restartTimer,
+	} = useTimer({
 		expiryTimestamp: calculateExpiryTimestamp(preCountEnabled ? preCountDuration : duration),
 		autoStart: true,
 		onExpire: onTimerExpire,
 	});
 
 	useEffect(() => {
-		if (timerPhase !== TimerPhase.MAIN) {
+		if (timerPhase !== TimerPhase.TRANSITION) {
 			return;
 		}
 
-		restart(calculateExpiryTimestamp(duration), true);
-	}, [duration, timerPhase, restart]);
+		restartTimer(calculateExpiryTimestamp(duration), true);
+		setTimerPhase(TimerPhase.MAIN);
+	}, [duration, timerPhase, calculateExpiryTimestamp, restartTimer]);
+
+	const { play: playSound } = useSounds(SOUND_EFFECT_SOURCES);
+
+	useEffect(() => {
+		TIMER_SOUND_EFFECTS[timerPhase]?.forEach(
+			({ condition, sound }) => condition(totalSeconds, duration) && playSound(sound)
+		);
+	}, [duration, timerPhase, totalSeconds, playSound]);
 
 	const isTimerRed =
 		timerPhase === TimerPhase.PRE || (timerPhase === TimerPhase.MAIN && minutes === 0 && seconds <= 10);
