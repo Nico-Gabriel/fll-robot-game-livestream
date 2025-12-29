@@ -41,13 +41,14 @@ const useKeyHold = (key, callback, ms = 2000, enabled = true) => {
 			clearTimeoutRef(timeoutRef);
 		};
 
-		document.addEventListener("keydown", onKeyDown);
-		document.addEventListener("keyup", onKeyUp);
+		const controller = new AbortController();
+		const signal = controller.signal;
+
+		document.addEventListener("keydown", onKeyDown, { signal });
+		document.addEventListener("keyup", onKeyUp, { signal });
 
 		return () => {
-			document.removeEventListener("keydown", onKeyDown);
-			document.removeEventListener("keyup", onKeyUp);
-
+			controller.abort();
 			clearTimeoutRef(timeoutRef);
 		};
 	}, [key, ms, enabled]);
