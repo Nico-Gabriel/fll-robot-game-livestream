@@ -10,6 +10,7 @@ const Timer = ({ duration, preCountEnabled = true, preCountDuration = 10 }) => {
 		[duration, preCountEnabled, preCountDuration]
 	);
 
+	const [hasTimerStarted, setHasTimerStarted] = useState(false);
 	const [timerPhase, setTimerPhase] = useState(initialTimerPhase);
 
 	const calculateExpiryTimestamp = useCallback((seconds) => new Date(Date.now() + seconds * 1000), []);
@@ -34,13 +35,19 @@ const Timer = ({ duration, preCountEnabled = true, preCountDuration = 10 }) => {
 		onExpire: onTimerExpire,
 	});
 
-	const resetTimer = useCallback(() => {
+	const onTimerStart = useCallback(() => {
+		startTimer();
+		setHasTimerStarted(true);
+	}, [startTimer]);
+
+	const onTimerReset = useCallback(() => {
 		restartTimer(calculateExpiryTimestamp(initialDuration), false);
+		setHasTimerStarted(false);
 		setTimerPhase(initialTimerPhase);
 	}, [initialTimerPhase, initialDuration, calculateExpiryTimestamp, restartTimer]);
 
-	useKeyHold("S", startTimer);
-	useKeyHold("R", resetTimer);
+	useKeyHold("S", onTimerStart);
+	useKeyHold("R", onTimerReset);
 
 	useEffect(() => {
 		if (timerPhase !== TimerPhase.TRANSITION) {
@@ -60,7 +67,8 @@ const Timer = ({ duration, preCountEnabled = true, preCountDuration = 10 }) => {
 	}, [duration, timerPhase, totalSeconds, playSound]);
 
 	const isTimerRed =
-		timerPhase === TimerPhase.PRE || (timerPhase === TimerPhase.MAIN && minutes === 0 && seconds <= 10);
+		hasTimerStarted &&
+		(timerPhase === TimerPhase.PRE || (timerPhase === TimerPhase.MAIN && minutes === 0 && seconds <= 10));
 
 	const renderDigit = (digit, forceVisible = false) => {
 		const isInvisible = !forceVisible && timerPhase === TimerPhase.PRE && digit === 0;
@@ -68,13 +76,17 @@ const Timer = ({ duration, preCountEnabled = true, preCountDuration = 10 }) => {
 		return <span className={`timer__digit ${isInvisible ? "timer__digit--invisible" : ""}`}>{digit}</span>;
 	};
 
+	const [displayMinutes, displaySeconds] = hasTimerStarted
+		? [minutes, seconds]
+		: [Math.floor(duration / 60), duration % 60];
+
 	return (
 		<div className={`timer ${isTimerRed ? "timer--red" : ""}`}>
-			<span className="timer__minutes">{renderDigit(minutes)}</span>
+			<span className="timer__minutes">{renderDigit(displayMinutes)}</span>
 			<span className="timer__colon">:</span>
 			<span className="timer__seconds">
-				{renderDigit(Math.floor(seconds / 10), minutes > 0)}
-				{renderDigit(seconds % 10, true)}
+				{renderDigit(Math.floor(displaySeconds / 10), displayMinutes > 0)}
+				{renderDigit(displaySeconds % 10, true)}
 			</span>
 		</div>
 	);
