@@ -1,11 +1,16 @@
 import { SOUND_EFFECT_SOURCES, TIMER_SOUND_EFFECTS, TimerPhase } from "constants";
-import { useSounds } from "hooks";
-import { useCallback, useEffect, useState } from "react";
+import { useKeyHold, useSounds } from "hooks";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTimer } from "react-timer-hook";
 import "./Timer.css";
 
 const Timer = ({ duration, preCountEnabled = true, preCountDuration = 10 }) => {
-	const [timerPhase, setTimerPhase] = useState(preCountEnabled ? TimerPhase.PRE : TimerPhase.MAIN);
+	const [initialTimerPhase, initialDuration] = useMemo(
+		() => (preCountEnabled ? [TimerPhase.PRE, preCountDuration] : [TimerPhase.MAIN, duration]),
+		[duration, preCountEnabled, preCountDuration]
+	);
+
+	const [timerPhase, setTimerPhase] = useState(initialTimerPhase);
 
 	const calculateExpiryTimestamp = useCallback((seconds) => new Date(Date.now() + seconds * 1000), []);
 
@@ -21,12 +26,21 @@ const Timer = ({ duration, preCountEnabled = true, preCountDuration = 10 }) => {
 		totalSeconds,
 		seconds,
 		minutes,
+		start: startTimer,
 		restart: restartTimer,
 	} = useTimer({
-		expiryTimestamp: calculateExpiryTimestamp(preCountEnabled ? preCountDuration : duration),
-		autoStart: true,
+		expiryTimestamp: calculateExpiryTimestamp(initialDuration),
+		autoStart: false,
 		onExpire: onTimerExpire,
 	});
+
+	const resetTimer = useCallback(() => {
+		restartTimer(calculateExpiryTimestamp(initialDuration), false);
+		setTimerPhase(initialTimerPhase);
+	}, [initialTimerPhase, initialDuration, calculateExpiryTimestamp, restartTimer]);
+
+	useKeyHold("S", startTimer);
+	useKeyHold("R", resetTimer);
 
 	useEffect(() => {
 		if (timerPhase !== TimerPhase.TRANSITION) {
