@@ -42,26 +42,30 @@ const Topbar = () => {
 	useResizeObserver(redTeamNameRef, () => updateTeamNameWidth(redTeamNameRef, TeamColor.RED));
 	useResizeObserver(blueTeamNameRef, () => updateTeamNameWidth(blueTeamNameRef, TeamColor.BLUE));
 
+	const renderTeamName = (teamNameRef, teamColor, teamName) => (
+		<div className={`team-name__wrapper team-name__wrapper--${teamColor} children-center`}>
+			<div ref={teamNameRef} className={`team-name team-name--${teamColor} bold`}>
+				{teamName}
+			</div>
+		</div>
+	);
+
+	const renderCountdownTimer = () => (
+		<div className="countdown-timer__wrapper children-center">
+			<div className="countdown-timer__container seven-segment-display">
+				<div className="countdown-timer__background">8:88</div>
+				<div className="countdown-timer">
+					<Timer duration={MATCH_DURATION_SECONDS} />
+				</div>
+			</div>
+		</div>
+	);
+
 	return (
 		<div ref={topbarRef} className="topbar">
-			<div className="team-name__wrapper team-name__wrapper--red children-center">
-				<div ref={redTeamNameRef} className="team-name team-name--red bold">
-					Red Team
-				</div>
-			</div>
-			<div className="countdown-timer__wrapper children-center">
-				<div className="countdown-timer__container seven-segment-display">
-					<div className="countdown-timer__background">8:88</div>
-					<div className="countdown-timer">
-						<Timer duration={MATCH_DURATION_SECONDS} />
-					</div>
-				</div>
-			</div>
-			<div className="team-name__wrapper team-name__wrapper--blue children-center">
-				<div ref={blueTeamNameRef} className="team-name team-name--blue bold">
-					Blue Team
-				</div>
-			</div>
+			{renderTeamName(redTeamNameRef, TeamColor.RED, "Red Team")}
+			{renderCountdownTimer()}
+			{renderTeamName(blueTeamNameRef, TeamColor.BLUE, "Blue Team")}
 		</div>
 	);
 };
