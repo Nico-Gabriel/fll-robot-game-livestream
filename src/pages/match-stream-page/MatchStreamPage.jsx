@@ -1,9 +1,12 @@
 import { TeamColor } from "constants";
+import { useKeyHold } from "hooks";
 import Topbar from "./components/topbar";
 import VideoStream from "./components/video-stream";
 import "./MatchStreamPage.css";
 
-const MatchStreamPage = () => {
+const MatchStreamPage = ({ goToTeamSelect }) => {
+	useKeyHold("E", goToTeamSelect);
+
 	return (
 		<div className="match-stream-page__container">
 			<Topbar />
