@@ -1,19 +1,18 @@
 import { SOUND_EFFECT_SOURCES, TIMER_SOUND_EFFECTS, TimerPhase } from "constants";
 import { useKeyHold, useSounds } from "hooks";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTimer } from "react-timer-hook";
 import "./Timer.css";
 
 const Timer = ({ duration, preCountEnabled = true, preCountDuration = 10 }) => {
-	const [initialTimerPhase, initialDuration] = useMemo(
-		() => (preCountEnabled ? [TimerPhase.PRE, preCountDuration] : [TimerPhase.MAIN, duration]),
-		[duration, preCountEnabled, preCountDuration]
-	);
+	const [initialTimerPhase, initialDuration] = preCountEnabled
+		? [TimerPhase.PRE, preCountDuration]
+		: [TimerPhase.MAIN, duration];
 
 	const [hasTimerStarted, setHasTimerStarted] = useState(false);
 	const [timerPhase, setTimerPhase] = useState(initialTimerPhase);
 
-	const calculateExpiryTimestamp = useCallback((seconds) => new Date(Date.now() + seconds * 1000), []);
+	const calculateExpiryTimestamp = (seconds) => new Date(Date.now() + seconds * 1000);
 
 	const onTimerExpire = useCallback(() => {
 		if (timerPhase !== TimerPhase.PRE) {
@@ -35,16 +34,16 @@ const Timer = ({ duration, preCountEnabled = true, preCountDuration = 10 }) => {
 		onExpire: onTimerExpire,
 	});
 
-	const onTimerStart = useCallback(() => {
+	const onTimerStart = () => {
 		startTimer();
 		setHasTimerStarted(true);
-	}, [startTimer]);
+	};
 
-	const onTimerReset = useCallback(() => {
+	const onTimerReset = () => {
 		restartTimer(calculateExpiryTimestamp(initialDuration), false);
 		setHasTimerStarted(false);
 		setTimerPhase(initialTimerPhase);
-	}, [initialTimerPhase, initialDuration, calculateExpiryTimestamp, restartTimer]);
+	};
 
 	useKeyHold("S", onTimerStart);
 	useKeyHold("R", onTimerReset);
@@ -56,7 +55,7 @@ const Timer = ({ duration, preCountEnabled = true, preCountDuration = 10 }) => {
 
 		restartTimer(calculateExpiryTimestamp(duration), true);
 		setTimerPhase(TimerPhase.MAIN);
-	}, [duration, timerPhase, calculateExpiryTimestamp, restartTimer]);
+	}, [duration, timerPhase, restartTimer]);
 
 	const { play: playSound } = useSounds(SOUND_EFFECT_SOURCES);
 
