@@ -1,9 +1,11 @@
+import MatchStreamPage from "pages/match-stream-page";
+import TeamSelectPage from "pages/team-select-page";
 import "./App.css";
-import MatchStreamPage from "./pages/match-stream-page";
 
 const App = () => {
 	return (
 		<div className="app__container">
+			<TeamSelectPage />
 			<MatchStreamPage />
 		</div>
 	);
