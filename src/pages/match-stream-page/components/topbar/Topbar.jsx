@@ -1,6 +1,7 @@
 import useResizeObserver from "@react-hook/resize-observer";
 import { MATCH_DURATION_SECONDS, TeamColor } from "constants";
 import { useRef } from "react";
+import { isHorizontallyOverflowing, setCSSProperty } from "utils";
 import Timer from "../timer";
 import "./Topbar.css";
 
@@ -11,8 +12,6 @@ const Topbar = ({ teamNames }) => {
 	const redTeamNameRef = useRef(null);
 	const blueTeamNameRef = useRef(null);
 
-	const setCSSVariable = (name, value) => document.documentElement.style.setProperty(name, value);
-
 	const updateTopbarHeight = () => {
 		const topbar = topbarRef.current;
 
@@ -20,7 +19,7 @@ const Topbar = ({ teamNames }) => {
 			return;
 		}
 
-		setCSSVariable("--team-name-background-cutout-width", `${topbar.clientHeight}px`);
+		setCSSProperty("--team-name-background-cutout-width", `${topbar.clientHeight}px`);
 	};
 
 	const updateTeamNameWidth = (teamNameRef, teamColor) => {
@@ -30,12 +29,12 @@ const Topbar = ({ teamNames }) => {
 			return;
 		}
 
-		setCSSVariable(`--${teamColor}-team-name-width`, `${teamName.clientWidth}px`);
-		setCSSVariable("--team-name-background-width", `${teamName.parentElement.clientWidth}px`);
+		setCSSProperty(`--${teamColor}-team-name-width`, `${teamName.clientWidth}px`);
+		setCSSProperty("--team-name-background-width", `${teamName.parentElement.clientWidth}px`);
 
 		teamName.classList.remove("marquee");
 
-		if (teamName.scrollWidth > teamName.clientWidth) {
+		if (isHorizontallyOverflowing(teamName)) {
 			teamName.classList.add("marquee");
 		}
 	};
