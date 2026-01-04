@@ -4,7 +4,9 @@ import { useRef } from "react";
 import Timer from "../timer";
 import "./Topbar.css";
 
-const Topbar = () => {
+const Topbar = ({ teamNames }) => {
+	const { [TeamColor.RED]: redTeamName, [TeamColor.BLUE]: blueTeamName } = teamNames;
+
 	const topbarRef = useRef(null);
 	const redTeamNameRef = useRef(null);
 	const blueTeamNameRef = useRef(null);
@@ -63,9 +65,9 @@ const Topbar = () => {
 
 	return (
 		<div ref={topbarRef} className="topbar">
-			{renderTeamName(redTeamNameRef, TeamColor.RED, "Red Team")}
+			{renderTeamName(redTeamNameRef, TeamColor.RED, redTeamName)}
 			{renderCountdownTimer()}
-			{renderTeamName(blueTeamNameRef, TeamColor.BLUE, "Blue Team")}
+			{renderTeamName(blueTeamNameRef, TeamColor.BLUE, blueTeamName)}
 		</div>
 	);
 };
