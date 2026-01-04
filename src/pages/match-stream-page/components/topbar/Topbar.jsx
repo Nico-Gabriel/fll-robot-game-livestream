@@ -45,7 +45,7 @@ const Topbar = ({ teamNames }) => {
 
 	const renderTeamName = (teamNameRef, teamColor, teamName) => (
 		<div className={`team-name__wrapper team-name__wrapper--${teamColor} children-center`}>
-			<div ref={teamNameRef} className={`team-name team-name--${teamColor} bold`}>
+			<div ref={teamNameRef} className={`team-name team-name--${teamColor} cardot bold`}>
 				{teamName}
 			</div>
 		</div>
