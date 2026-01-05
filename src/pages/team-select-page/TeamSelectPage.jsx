@@ -1,32 +1,44 @@
 import { TeamColor } from "constants";
 import { useEffect } from "react";
+import Select from "react-select";
+import { capitalizeFirstLetter } from "utils";
 import "./TeamSelectPage.css";
 
-const TeamSelectPage = ({ teamNames, setTeamNames, resetTeamNames, goToMatchStream }) => {
-	useEffect(() => resetTeamNames(), [resetTeamNames]);
+const TeamSelectPage = ({ teamNames, resetTeamNames, updateTeamName, goToMatchStream }) => {
+	const teamNameList = ["Team Alpha", "Team Beta", "Team Gamma", "Team Delta", "Team Epsilon", "Team Zeta"];
 
-	const onTeamNameChange = (teamColor) => (e) =>
-		setTeamNames((prevTeamNames) => ({ ...prevTeamNames, [teamColor]: e.target.value }));
+	const { [TeamColor.RED]: redTeamName, [TeamColor.BLUE]: blueTeamName } = teamNames;
+
+	useEffect(resetTeamNames, [resetTeamNames]);
+
+	const createTeamNameSelectOptions = (disabledTeamName) =>
+		teamNameList.map((teamName) => ({
+			value: teamName,
+			label: teamName,
+			isDisabled: teamName === disabledTeamName,
+		}));
+
+	const onTeamNameSelectChange = (teamColor) => (selectedOption) =>
+		updateTeamName(teamColor, selectedOption ? selectedOption.value : "");
+
+	const renderTeamNameSelect = (teamColor, disabledTeamName) => (
+		<Select
+			className="team-name-select"
+			placeholder={`${capitalizeFirstLetter(teamColor)} Team`}
+			options={createTeamNameSelectOptions(disabledTeamName)}
+			onChange={onTeamNameSelectChange(teamColor)}
+			isSearchable
+			isClearable
+		/>
+	);
 
 	return (
 		<div className="team-select-page__container">
 			<h1>Team Select Page</h1>
 			<p>Select both teams to proceed to the match stream.</p>
-			<input
-				type="text"
-				placeholder="Red Team Name"
-				value={teamNames[TeamColor.RED]}
-				onChange={onTeamNameChange(TeamColor.RED)}
-			/>
-			<br />
-			<input
-				type="text"
-				placeholder="Blue Team Name"
-				value={teamNames[TeamColor.BLUE]}
-				onChange={onTeamNameChange(TeamColor.BLUE)}
-			/>
-			<br />
-			<button onClick={goToMatchStream} disabled={!teamNames[TeamColor.RED] || !teamNames[TeamColor.BLUE]}>
+			{renderTeamNameSelect(TeamColor.RED, blueTeamName)}
+			{renderTeamNameSelect(TeamColor.BLUE, redTeamName)}
+			<button onClick={goToMatchStream} disabled={!redTeamName || !blueTeamName}>
 				Go to Match Stream
 			</button>
 		</div>
