@@ -12,13 +12,16 @@ const App = () => {
 
 	const resetTeamNames = useCallback(() => setTeamNames(initialTeamNames), [initialTeamNames]);
 
+	const updateTeamName = (teamColor, newTeamName) =>
+		setTeamNames((prevTeamNames) => ({ ...prevTeamNames, [teamColor]: newTeamName }));
+
 	return (
 		<div className="app__container">
 			{page === Page.TEAM_SELECT && (
 				<TeamSelectPage
 					teamNames={teamNames}
-					setTeamNames={setTeamNames}
 					resetTeamNames={resetTeamNames}
+					updateTeamName={updateTeamName}
 					goToMatchStream={() => setPage(Page.MATCH_STREAM)}
 				/>
 			)}
