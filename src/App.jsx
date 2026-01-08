@@ -9,6 +9,7 @@ const App = () => {
 
 	const [page, setPage] = useState(Page.TEAM_SELECT);
 	const [teamNames, setTeamNames] = useState(initialTeamNames);
+	const [teamNameList, setTeamNameList] = useState([]);
 
 	const resetTeamNames = useCallback(() => setTeamNames(initialTeamNames), [initialTeamNames]);
 
@@ -22,6 +23,8 @@ const App = () => {
 					teamNames={teamNames}
 					resetTeamNames={resetTeamNames}
 					updateTeamName={updateTeamName}
+					teamNameList={teamNameList}
+					setTeamNameList={setTeamNameList}
 					goToMatchStream={() => setPage(Page.MATCH_STREAM)}
 				/>
 			)}

@@ -4,15 +4,20 @@ import Select from "react-select";
 import { capitalizeFirstLetter } from "utils";
 import "./TeamSelectPage.css";
 
-const TeamSelectPage = ({ teamNames, resetTeamNames, updateTeamName, goToMatchStream }) => {
-	const teamNameList = ["Team Alpha", "Team Beta", "Team Gamma", "Team Delta", "Team Epsilon", "Team Zeta"];
-
+const TeamSelectPage = ({
+	teamNames,
+	resetTeamNames,
+	updateTeamName,
+	teamNameList,
+	setTeamNameList,
+	goToMatchStream,
+}) => {
 	const { [TeamColor.RED]: redTeamName, [TeamColor.BLUE]: blueTeamName } = teamNames;
 
 	useEffect(resetTeamNames, [resetTeamNames]);
 
 	const createTeamNameSelectOptions = (disabledTeamName) =>
-		teamNameList.map((teamName) => ({
+		teamNameList?.map((teamName) => ({
 			value: teamName,
 			label: teamName,
 			isDisabled: teamName === disabledTeamName,
@@ -32,6 +37,27 @@ const TeamSelectPage = ({ teamNames, resetTeamNames, updateTeamName, goToMatchSt
 		/>
 	);
 
+	const updateTeamNameList = (text) => {
+		const newTeamNameList = text
+			.split("\n")
+			.map((teamName) => teamName.trim())
+			.filter((teamName) => teamName.length > 0);
+
+		setTeamNameList(newTeamNameList);
+	};
+
+	const onFileInputChange = async (e) => {
+		const file = e.target.files[0];
+
+		if (!file) {
+			return;
+		}
+
+		const text = await file.text();
+
+		updateTeamNameList(text);
+	};
+
 	return (
 		<div className="team-select-page__container">
 			<h1>Team Select Page</h1>
@@ -41,6 +67,7 @@ const TeamSelectPage = ({ teamNames, resetTeamNames, updateTeamName, goToMatchSt
 			<button onClick={goToMatchStream} disabled={!redTeamName || !blueTeamName}>
 				Go to Match Stream
 			</button>
+			<input type="file" accept=".txt" onChange={onFileInputChange} />
 		</div>
 	);
 };
