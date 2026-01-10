@@ -1,5 +1,5 @@
 import { TeamColor } from "constants";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Select from "react-select";
 import { capitalizeFirstLetter } from "utils";
 import "./TeamSelectPage.css";
@@ -13,6 +13,9 @@ const TeamSelectPage = ({
 	goToMatchStream,
 }) => {
 	const { [TeamColor.RED]: redTeamName, [TeamColor.BLUE]: blueTeamName } = teamNames;
+	const isTeamNameUploadRequired = teamNameList.length < 2;
+
+	const fileInputRef = useRef(null);
 
 	useEffect(resetTeamNames, [resetTeamNames]);
 
@@ -37,6 +40,8 @@ const TeamSelectPage = ({
 		/>
 	);
 
+	const triggerFileInputClick = () => fileInputRef.current?.click();
+
 	const updateTeamNameList = (text) => {
 		const newTeamNameList = text
 			.split("\n")
@@ -60,14 +65,22 @@ const TeamSelectPage = ({
 
 	return (
 		<div className="team-select-page__container">
-			<h1>Team Select Page</h1>
-			<p>Select both teams to proceed to the match stream.</p>
-			{renderTeamNameSelect(TeamColor.RED, blueTeamName)}
-			{renderTeamNameSelect(TeamColor.BLUE, redTeamName)}
-			<button onClick={goToMatchStream} disabled={!redTeamName || !blueTeamName}>
-				Go to Match Stream
-			</button>
-			<input type="file" accept=".txt" onChange={onFileInputChange} />
+			<h1>{isTeamNameUploadRequired ? "Upload Team Names" : "Select Teams"}</h1>
+			<p>
+				{isTeamNameUploadRequired
+					? "Upload a text file (.txt) containing at least two team names (one per line) to proceed."
+					: "Select both teams to continue to the match stream."}
+			</p>
+			{!isTeamNameUploadRequired && renderTeamNameSelect(TeamColor.RED, blueTeamName)}
+			{!isTeamNameUploadRequired && renderTeamNameSelect(TeamColor.BLUE, redTeamName)}
+			{isTeamNameUploadRequired ? (
+				<button onClick={triggerFileInputClick}>Upload</button>
+			) : (
+				<button onClick={goToMatchStream} disabled={!redTeamName || !blueTeamName}>
+					Continue
+				</button>
+			)}
+			<input ref={fileInputRef} type="file" accept=".txt" className="hidden" onChange={onFileInputChange} />
 		</div>
 	);
 };
